@@ -53,9 +53,9 @@ public class PersonGenerator
         // (may need to adjust for other IDE)
         // Not sure if the toolkit is thread safe...
         File workingDirectory = new File(System.getProperty("user.dir"));
-        Path file = Paths.get(workingDirectory.getPath() + "\\src\\" + fileName + ".txt");
+        Path file = Paths.get(workingDirectory.getPath(), "src", fileName + ".txt");
 
-            try
+        try
             {
                 // Typical java pattern of inherited classes
                 // we wrap a BufferedWriter around a lower level BufferedOutputStream
