@@ -11,7 +11,8 @@ public class PersonGenerator
 {
     public static void main(String[] args)
     {
-        ArrayList<String> recs = new ArrayList<>();
+        // Changed from ArrayList<String> to ArrayList<Person>
+        ArrayList<Person> people = new ArrayList<>();
 
         Scanner in = new Scanner(System.in);
         boolean doneInput = false;
@@ -20,11 +21,9 @@ public class PersonGenerator
         String fName = "";
         String lName = "";
         String title = "";
-        String rec = "";
         int yob = 0;
 
         String fileName = "";
-
 
         do
         {
@@ -34,10 +33,11 @@ public class PersonGenerator
             title = SafeInput.getNonZeroLenString(in, "Enter your Title");
             yob = SafeInput.getRangedInt(in, "Enter the year of your birth", 1000, 9999);
 
-            rec = ID + ", " + fName + ", " + lName + ", " + title + ", " + yob;
+            // Create a Person object instead of a string
+            Person person = new Person(ID, fName, lName, title, yob);
 
-            recs.add(rec);
-
+            // Add the Person object to the ArrayList
+            people.add(person);
 
             doneInput = SafeInput.getYNConfirm(in, "Are you done entering records?");
 
@@ -56,30 +56,29 @@ public class PersonGenerator
         Path file = Paths.get(workingDirectory.getPath(), "src", fileName + ".txt");
 
         try
+        {
+            // Typical java pattern of inherited classes
+            // we wrap a BufferedWriter around a lower level BufferedOutputStream
+            OutputStream out =
+                    new BufferedOutputStream(Files.newOutputStream(file, CREATE));
+            BufferedWriter writer =
+                    new BufferedWriter(new OutputStreamWriter(out));
+
+            // Finally can write the file LOL!
+            // Use the Person's toCSV() method to write each record
+            for(Person person : people)
             {
-                // Typical java pattern of inherited classes
-                // we wrap a BufferedWriter around a lower level BufferedOutputStream
-                OutputStream out =
-                        new BufferedOutputStream(Files.newOutputStream(file, CREATE));
-                BufferedWriter writer =
-                        new BufferedWriter(new OutputStreamWriter(out));
-
-                // Finally can write the file LOL!
-
-                for(String r : recs)
-                {
-                    writer.write(r, 0, r.length());  // stupid syntax for write rec
-                    // 0 is where to start (1st char) the write
-                    // r. length() is how many chars to write (all)
-                    writer.newLine();  // adds the new line
-
-                }
-                writer.close(); // must close the file to seal it and flush buffer
-                System.out.println("Data file written!");
+                String csvRecord = person.toCSV(); // Use the toCSV() method we created
+                writer.write(csvRecord, 0, csvRecord.length());
+                writer.newLine();  // adds the new line
             }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+
+            writer.close(); // must close the file to seal it and flush buffer
+            System.out.println("Data file written!");
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

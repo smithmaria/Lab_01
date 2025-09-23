@@ -166,7 +166,7 @@ public class Person {
      * @return CSV formatted string
      */
     public String toCSV() {
-        return ID + ", " + firstName + ", " + lastName + ", " + title + ", " + YOB;
+        return ID + "," + firstName + "," + lastName + "," + title + "," + YOB;
     }
 
     /**
