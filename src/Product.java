@@ -4,7 +4,7 @@ import java.util.Objects;
  * Product class represents a product with basic information including name, description, ID, and cost.
  * This class provides various methods to format and display product information.
  *
- * @author Your Name
+ * @author Maria Smith
  * @version 1.0
  */
 public class Product {

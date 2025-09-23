@@ -4,7 +4,7 @@ import java.util.Scanner;
  * Object-oriented version of SafeInput utility class
  * Provides safe input methods for console interaction
  *
- * @author Your Name
+ * @author Maria Smith
  * @version 1.0
  */
 public class SafeInputObj

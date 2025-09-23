@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Tests constructors, setter methods, and additional specified methods
  * Note: Getter methods are not tested as per assignment requirements
  *
- * @author Your Name
- * @version 1.0
+ * @author Maria Smith
  */
 public class ProductTest {
 
