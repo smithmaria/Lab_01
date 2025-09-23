@@ -13,7 +13,8 @@ public class ProductReader
         JFileChooser chooser = new JFileChooser();
         File selectedFile;
         String rec = "";
-        ArrayList<String> lines = new ArrayList<>();
+        // Changed from ArrayList<String> to ArrayList<Product>
+        ArrayList<Product> products = new ArrayList<>();
 
         final int FIELDS_LENGTH = 4;
 
@@ -24,7 +25,6 @@ public class ProductReader
 
         try
         {
-
             // use the toolkit to get the current working directory of the IDE
             // Not sure if the toolkit is thread safe...
             File workingDirectory = new File(System.getProperty("user.dir"));
@@ -42,29 +42,12 @@ public class ProductReader
                 BufferedReader reader =
                         new BufferedReader(new InputStreamReader(in));
 
-
                 while(reader.ready())
                 {
                     rec = reader.readLine();
-                    lines.add(rec);  // read all the lines into memory in an array list
-                }
-                reader.close(); // must close the file to seal it and flush buffer
-                System.out.println("\n\nData file read!");
 
-                // Now process the lines in the arrayList
-                // Split the line into the fields by using split with a comma
-                // use trim to remove leading and trailing spaces
-                // Numbers need to be converted back to numberic values. Here only
-                // the last field year of birth yob is an int the rest are strings.
-
-                String[] fields;
-
-                System.out.printf("\n%-8s%-20s%-30s%-6s", "ID#", "Name", "Description", "Cost");
-                System.out.print("\n===================================================================");
-
-                for(String l:lines)
-                {
-                    fields = l.split(","); // Split the record into the fields
+                    // Split the line into fields and create Product object
+                    String[] fields = rec.split(",");
 
                     if(fields.length == FIELDS_LENGTH)
                     {
@@ -72,17 +55,34 @@ public class ProductReader
                         name        = fields[1].trim();
                         description = fields[2].trim();
                         cost        = Double.parseDouble(fields[3].trim());
-                        System.out.printf("\n%-8s%-20s%-30s%-6s", id, name, description, cost);
+
+                        // Create a Product object and add to ArrayList
+                        Product product = new Product(name, description, id, cost);
+                        products.add(product);
                     }
                     else
                     {
                         System.out.println("Found a record that may be corrupt: ");
-                        System.out.println(l);
+                        System.out.println(rec);
                     }
                 }
+                reader.close(); // must close the file to seal it and flush buffer
+                System.out.println("\n\nData file read!");
 
+                // Now display the products from the ArrayList using Product objects
+                System.out.printf("\n%-8s%-20s%-30s%-6s", "ID#", "Name", "Description", "Cost");
+                System.out.print("\n===================================================================");
+
+                for(Product product : products)
+                {
+                    System.out.printf("\n%-8s%-20s%-30s%-6.2f",
+                            product.getID(),
+                            product.getName(),
+                            product.getDescription(),
+                            product.getCost());
+                }
             }
-            else  // user closed the file dialog wihtout choosing
+            else  // user closed the file dialog without choosing
             {
                 System.out.println("Failed to choose a file to process");
                 System.out.println("Run the program again!");
