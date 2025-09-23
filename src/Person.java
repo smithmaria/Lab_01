@@ -17,13 +17,13 @@ public class Person {
 
     /**
     * Main constructor that takes all fields
+    * @param ID - id, 6 digit number
     * @param firstName - first name
     * @param lastName - last name
-    * @param ID - id, 6 digit number
     * @param title - title (Mr., Mrs., Dr., etc.)
     * @param YOB - year of birth
     */
-    public Person(String firstName, String lastName, String ID, String title, int YOB) {
+    public Person(String ID, String firstName, String lastName, String title, int YOB) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.ID = ID;
@@ -33,12 +33,12 @@ public class Person {
 
     /**
      * Overloaded constructor without title (defaults to empty string)
+     * @param ID - id, 6 digit number
      * @param firstName - first name
      * @param lastName - last name
-     * @param ID - id, 6 digit number
      * @param YOB - year of birth
      */
-    public Person (String firstName, String lastName, String ID, int YOB) {
+    public Person (String ID, String firstName, String lastName, int YOB) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.ID = ID;
@@ -175,9 +175,9 @@ public class Person {
      */
     public String toJSON() {
         return "{" +
+                "\"ID\":\"" + ID + "\"," +
                 "\"firstName\":\"" + firstName + "\"," +
                 "\"lastName\":\"" + lastName + "\"," +
-                "\"ID\":\"" + ID + "\"," +
                 "\"title\":\"" + title + "\"," +
                 "\"YOB\":" + YOB +
                 "}";    
@@ -189,9 +189,9 @@ public class Person {
      */
     public String toXML() {
         return "<Person>" +
+                "<ID>" + ID + "</ID>" +
                 "<firstName>" + firstName + "</firstName>" +
                 "<lastName>" + lastName + "</lastName>" +
-                "<ID>" + ID + "</ID>" +
                 "<title>" + title + "</title>" +
                 "<YOB>" + YOB + "</YOB>" +
                 "</Person>";    
@@ -204,9 +204,9 @@ public class Person {
     @Override
     public String toString() {
         return "Person{" +
+                ", ID='" + ID + '\'' +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", ID='" + ID + '\'' +
                 ", title='" + title + '\'' +
                 ", YOB=" + YOB +
                 '}'; 
@@ -224,9 +224,9 @@ public class Person {
 
         Person person = (Person) obj;
         return YOB == person.YOB &&
+                Objects.equals(ID, person.ID) &&
                 Objects.equals(firstName, person.firstName) &&
                 Objects.equals(lastName, person.lastName) &&
-                Objects.equals(ID, person.ID) &&
                 Objects.equals(title, person.title);
     }
 
@@ -236,6 +236,6 @@ public class Person {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, ID, title, YOB);
+        return Objects.hash(ID, firstName, lastName, title, YOB);
     }
 }
